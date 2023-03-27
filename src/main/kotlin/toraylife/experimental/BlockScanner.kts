@@ -1,4 +1,4 @@
-package experimental
+package toraylife.experimental
 
 import mchorse.mappet.api.scripts.user.IScriptEvent
 import mchorse.mappet.api.scripts.user.blocks.IScriptBlockState

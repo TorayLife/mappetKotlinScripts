@@ -1,4 +1,4 @@
-package experimental
+package toraylife.experimental
 
 import mchorse.mappet.api.scripts.user.IScriptEvent
 import mchorse.mappet.api.scripts.user.blocks.IScriptBlockState
@@ -9,22 +9,28 @@ fun main(c: IScriptEvent) {
     val pos = c.player.position.blockVector
 
     val blocks = buildList<IScriptBlockState> {
-        for (x in (pos.x - radius)..(pos.x + radius)) {
-            for (y in (pos.y - radius)..(pos.y + radius)) {
-                for (z in (pos.z - radius)..(pos.z + radius)) {
+        for (x in (pos.x - 10)..(pos.x + 10)) {
+            for (y in (pos.y - 10)..(pos.y + 10)) {
+                for (z in (pos.z - 10)..(pos.z + 10)) {
                     val block = c.world.getBlock(x,y,z)
-                    add(block)
+                    add(block);
                 }
             }
         }
     }
 
-    val counts = blocks.groupingBy { it.blockId }.eachCount()
-    val counts1 = blocks.groupBy { it.blockId }.mapValues { it.value.size }
-
-    for ((id, count) in counts) {
-        c.send("$id: $count")
+    val counts = buildMap<String, Int> {
+        for (block in blocks) {
+            val id = block.blockId
+            put(id, (get(id) ?: 0) + 1)
+        }
     }
+
+
+    for (entry in counts) {
+        c.send("${entry.key}: ${entry.value}")
+    }
+
 }
 
 val ScriptVector.blockVector: ScriptBlockVector

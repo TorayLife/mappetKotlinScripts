@@ -22,9 +22,7 @@ class Callback {
 
         fun execute(c: IScriptEvent) {
             val context = c.player.uiContext;
-            registry[context.last]?.let {
-                it(c, context)
-            }
+            registry[context.last]?.invoke(c, context)
             onHandler(c, context)
         }
 
@@ -39,7 +37,7 @@ fun handler(c: IScriptEvent) {
 }
 
 fun IScriptFactory.ui(c: IScriptEvent, builder: IMappetUIBuilder.() -> Unit): IMappetUIBuilder {
-    val mappetUI = createUI(c, "handler")
+    val mappetUI = createUI(c, "toraylife.handler")
     mappetUI.builder()
     return mappetUI
 }
